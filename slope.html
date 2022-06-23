@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <title>
+        Learning Slope
+    </title>
+    <link rel="stylesheet" href="slope.css">
+</head>
+  
+<body>
+    <div class="chart-wrap">
+        <div id="y"></div>
+        <canvas id="chart"></canvas>
+        <div id="x"></div>
+    </div>
+
+    <div class = "range-wrap">
+        <label>Slope</label>
+    </div>
+
+
+    <form  name="slider" oninput="range1value.value = range1.valueAsNumber">
+        <input id = "slider1" name="range1" type="range" step="0.25" min="-3" max="3" value="0" list = "ticks"> 
+        <output name="range1value" for="range1" >0</output>
+        <datalist id="ticks">
+        
+            <option value="-3" label="-3"></option>
+            <option value="-2" label="-2"></option>
+            <option value="-1" label="-1"></option>
+            <option value="0" label="0"></option>
+            <option value="1" label="1"></option>
+            <option value="2" label="2"></option>
+            <option value="3" label="3"></option>
+            </datalist>
+      </form>
+
+    <div class = "range-wrap">
+        <label>Y-Intercept</label>
+    </div>
+
+    <form  name="slider" oninput="range2value.value = range2.valueAsNumber">
+        <input id = "slider2" name="range2" type="range" step="1" min="-5" max="5" value="0" list = "ticks2"> 
+        <output name="range2value" for="range2" >0</output>
+        <datalist id="ticks2">
+
+            <option value="-5" label="-5"></option>
+            <option value="-4" label="-4"></option>
+            <option value="-3" label="-3"></option>
+            <option value="-2" label="-2"></option>
+            <option value="-1" label="-1"></option>
+            <option value="0" label="0"></option>
+            <option value="1" label="1"></option>
+            <option value="2" label="2"></option>
+            <option value="3" label="3"></option>
+            <option value="4" label="4"></option>
+            <option value="5" label="5"></option>
+            </datalist> 
+
+      </form>
+      
+
+    <script>
+        var chart = document.getElementById("chart").getContext("2d");
+        
+
+        chart.canvas.width = "500";
+        chart.canvas.height = "500";
+
+        var cw = parseFloat(document.getElementById("chart").width);
+        var ch = parseFloat(document.getElementById("chart").height);
+
+        var w = [];
+        for(var i = 0; i<=10; i++){
+            w.push(i*cw/10);
+        }
+
+        var h = [];
+        for(var i = 0; i<=10; i++){
+            h.push(ch - i*(ch/10));
+        }
+
+        var x = ["-4", "-3", "-2", "-1", "1", "2", "3", "4"];
+        var y = ["-4", "-3", "-2", "-1", "1", "2", "3", "4"];
+
+        // axis labels
+        function labels(){
+        chart.font = "15px Arial";
+        chart.fillStyle = "#009fdf";
+        for(var i =0;i<=x.length/2 - 1;i++){
+            chart.fillText(x[i], w[i+1] - 5, ch/2 +15);
+            chart.fillText(y[i], cw/2 - 15, h[i+1] + 5);
+        }
+        for(var i =x.length/2;i<=x.length-1;i++){
+            chart.fillText(x[i], w[i+2] - 5, ch/2 +15);
+            chart.fillText(y[i], cw/2 - 15, h[i+2] + 5);
+        }
+        }   
+
+
+
+        // vertical lines
+        function gridV(){
+        for(var i =0;i<=w.length;i++){
+            if (i != 5){
+                chart.beginPath();
+                
+                chart.strokeStyle = 'rgba(0, 159, 223,0.3)';
+                chart.moveTo(w[i], 0);
+                chart.lineTo(w[i], ch);
+                chart.stroke();
+            } else {
+                chart.beginPath();
+                
+                chart.strokeStyle = 'rgba(0, 159, 223, 1)';
+                chart.lineWidth = 2;
+                chart.moveTo(w[i], 0);
+                chart.lineTo(w[i], ch);
+
+                chart.moveTo(w[i]-10, 10);
+                chart.lineTo(w[i], 0);
+                chart.lineTo(w[i]+10, 10);
+
+                chart.moveTo(w[i]-10, ch-10);
+                chart.lineTo(w[i], ch);
+                chart.lineTo(w[i]+10, ch-10);
+                
+                chart.stroke();
+            }
+        }
+    
+        }
+
+        //horizontal lines
+        function gridH(){
+        
+        for(var i =0;i<=h.length;i++){
+            if (i != 5){
+                chart.beginPath();
+                
+                chart.strokeStyle = 'rgba(0, 159, 223,0.3)';
+                chart.moveTo(0, h[i]);
+                chart.lineTo(cw, h[i]);
+                chart.stroke();
+            } else {
+                chart.beginPath();
+                
+                chart.strokeStyle = 'rgba(0, 159, 223, 1)';
+                chart.moveTo(0, h[i]);
+                chart.lineTo(cw, h[i]);
+
+                chart.moveTo(10, h[i]+10);
+                chart.lineTo(0, h[i]);
+                chart.lineTo(10, h[i] -10);
+
+                chart.moveTo(cw-10, h[i]+10);
+                chart.lineTo(cw, h[i]);
+                chart.lineTo(cw-10, h[i] -10);
+
+                chart.stroke();
+                
+            }
+        }
+        }
+
+
+        gridV();
+        gridH();
+        labels();
+
+        var s1;
+        var s2;
+        var range1;
+        var range2;
+
+        function draw(){
+            s1 = parseFloat(document.getElementById("slider1").value);
+            s2 = parseFloat(document.getElementById("slider2").value);
+            range1 = document.getElementById('rangeVal');
+            range2 = document.getElementById('rangeVal2');
+
+            chart.clearRect(0, 0, 500, 500);
+            gridV();
+            gridH();
+            labels();
+            chart.beginPath();
+                
+            
+            chart.moveTo(0, ch/2 - (s1*-5 + s2)*(ch/10));
+            chart.strokeStyle = '#F8C471';
+            chart.lineWidth = 2;
+            chart.lineTo(cw, ch/2 - (s1*5 + s2)*(ch/10)) ;
+            chart.stroke();
+        }
+
+        slider1.addEventListener('input', function(){ 
+            draw();
+        });
+        slider2.addEventListener('input', function(){
+            draw();
+        });
+
+
+        // var beforex = document.querySelector('#weeks>span:before');
+
+        // for(var i = 1;i<w.length;i++){
+        // beforex.style.marginLeft = w[i];
+        // }
+    </script>
+</body>
+  
+</html>

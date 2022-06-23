@@ -1,0 +1,46 @@
+.slider {
+  height: 50px;
+  width: 400px;
+  }
+
+.chart-wrap{
+  text-align:center;
+}
+
+.range-wrap{
+  text-align: center;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 20px;
+  padding-top: 20px;
+}
+datalist {
+  display: flex;
+  justify-content: space-between;
+  text-align: relative;
+  color: rgba(0, 159, 223, 1);
+  margin: auto;
+  width: 50%;
+}
+option{
+  width: 5px;
+}
+output{
+  display: inline-block;
+  position: absolute;
+}
+
+input {
+  width: 50%;
+
+}
+
+.range-value{
+  position: absolute;
+  top: -50%;
+}
+
+form {
+  text-align: center;
+
+}
+
