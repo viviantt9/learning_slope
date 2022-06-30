@@ -8,7 +8,7 @@
             "type": "pwa-chrome",
             "request": "launch",
             "name": "Open slope.html",
-            "file": "/Users/viviantrinh/Javascript/slope.html"
+            "file": "../learning_slope/slope.html"
         }
     ]
 }
